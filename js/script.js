@@ -1,3 +1,16 @@
+
+/* --- 3D LOADER LOGIC --- */
+window.addEventListener('load', function() {
+    const loader = document.getElementById('loaderWrapper');
+    
+    // Minimum wait time (e.g., 2 seconds) to show off the animation
+    // even if the site loads instantly
+    setTimeout(() => {
+        // Add the class that triggers the CSS exit animations
+        loader.classList.add('loaded');
+    }, 2000); 
+});
+
 function toggleMenu() {
         const nav = document.getElementById('navContent');
         nav.classList.toggle('active');

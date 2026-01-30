@@ -2,6 +2,169 @@
 html {
     scroll-behavior: smooth;
 }
+
+/* --- PREMIUM LOADER STYLES --- */
+/* --- CONTAINER & SHUTTERS --- */
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* The Black Background Shutters */
+.loader-shutter {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%; /* Each takes half screen */
+    background: #050505; /* Deepest Black */
+    z-index: 1;
+    transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1); /* Cinematic ease */
+}
+
+.top-shutter {
+    top: 0;
+    border-bottom: 1px solid #1a1a1a; /* Subtle edge line */
+}
+
+.bottom-shutter {
+    bottom: 0;
+    border-top: 1px solid #1a1a1a;
+}
+
+/* --- THE 3D SPINNER --- */
+.loader-content-3d {
+    position: relative;
+    z-index: 10; /* Sits on top of shutters */
+    width: 150px;
+    height: 150px;
+    perspective: 800px; /* Creates 3D depth */
+    transform-style: preserve-3d;
+    transition: opacity 0.5s ease;
+}
+
+/* The Glowing Core */
+.core-ball {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: #ff0055; /* Your Pink */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 30px #ff0055, 0 0 60px #ff0055; /* Intense Glow */
+    animation: pulseCore 1.5s infinite ease-in-out;
+}
+
+/* The 3D Rings */
+.ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top-color: #ff0055; /* Pink arcs */
+    border-bottom-color: #ff0055;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+}
+
+/* Individual Ring Animations */
+.ring-1 {
+    animation: spin3D 2s infinite linear;
+}
+
+.ring-2 {
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    border: 3px solid transparent;
+    border-left-color: #ffffff; /* White accents */
+    border-right-color: #ffffff;
+    animation: spin3DReverse 3s infinite linear;
+}
+
+.ring-3 {
+    width: 130%;
+    height: 130%;
+    top: -15%;
+    left: -15%;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Ghost ring */
+    animation: spinFlat 5s infinite linear;
+}
+
+/* Loading Text */
+.loading-text {
+    position: absolute;
+    bottom: -50px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+    letter-spacing: 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    animation: textFlicker 2s infinite;
+}
+
+/* --- KEYFRAME ANIMATIONS --- */
+
+/* Complex 3D Rotation */
+@keyframes spin3D {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg); }
+}
+
+@keyframes spin3DReverse {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    100% { transform: rotateX(-360deg) rotateY(-180deg) rotateZ(-90deg); }
+}
+
+@keyframes spinFlat {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+}
+
+@keyframes pulseCore {
+    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
+}
+
+@keyframes textFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* --- EXIT STATES (Triggered by JS) --- */
+.loader-wrapper.loaded .top-shutter {
+    transform: translateY(-100%); /* Slides UP */
+}
+
+.loader-wrapper.loaded .bottom-shutter {
+    transform: translateY(100%); /* Slides DOWN */
+}
+
+.loader-wrapper.loaded .loader-content-3d {
+    opacity: 0;
+    transform: scale(0.5); /* Shrinks away */
+}
+
+.loader-wrapper.loaded {
+    pointer-events: none; /* Allows clicking through */
+}
+
+
 body{color:#111;
     background-image: url('../images/bg-image-12.jpg');
     align-items:center;
